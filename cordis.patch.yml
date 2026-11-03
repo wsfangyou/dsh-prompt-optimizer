@@ -1,0 +1,20 @@
+# dsh-prompt-optimizer 配置层：「优化提示词」按钮插件。
+# 作为 bundle 附加层：宿主半边（webServer 路由 /prompt-optimizer/optimize + ctx.llm 改写）
+# 与浏览器半边（dsh.client 声明 → composer 工具行按钮）都由这一行加载。
+#
+# 卸载：把本包从 profile 的 dsh.profile.bundles 移除并删除包目录即可，无需回退其它配置。
+- insert:
+    - id: prompt-optimizer
+      name: dsh-prompt-optimizer
+      config:
+        # 改写用的模型路由：留空 = 自动跟随当前会话所选模型；会话无记录时回退
+        # agent-default-model（新会话默认模型）；两者都拿不到则报错提示。
+        # 显式固定时 provider 与 model 必须成对填写（已注册的 provider 路由 id 与模型 id）。
+        provider: ""
+        model: ""
+        # 单次改写的输入字符上限（超限返回 413，防止把整篇文档塞进一次改写）。
+        maxInputChars: 16000
+        # 改写输出的 max tokens 上限。
+        maxOutputTokens: 1500
+        # 单次模型调用超时（毫秒）；到点中止并向客户端报 504。
+        timeoutMs: 45000

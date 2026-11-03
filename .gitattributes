@@ -1,0 +1,5 @@
+# 统一 LF，避免跨平台换行抖动
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.svg text
